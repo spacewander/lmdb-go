@@ -347,6 +347,7 @@ func ExampleEnv() {
 		if err != nil {
 			return err
 		}
+		println(dbi)
 
 		// commit the transaction, writing an entry for the newly created
 		// database if it was just created and allowing the dbi to be used in
@@ -668,6 +669,7 @@ func ExampleTxn_OpenDBI() {
 	var dbi lmdb.DBI
 	err = env.Update(func(txn *lmdb.Txn) (err error) {
 		dbi, err = txn.OpenDBI("dbfound", 0)
+		println(dbi)
 		return err
 	})
 	if err != nil {
@@ -682,6 +684,7 @@ func ExampleTxn_OpenDBI_create() {
 	var dbi lmdb.DBI
 	err = env.Update(func(txn *lmdb.Txn) (err error) {
 		dbi, err = txn.OpenDBI("dbnew", lmdb.Create)
+		println(dbi)
 		return err
 	})
 	if err != nil {
@@ -696,6 +699,7 @@ func ExampleTxn_OpenDBI_notFound() {
 	var dbi lmdb.DBI
 	err = env.Update(func(txn *lmdb.Txn) (err error) {
 		dbi, err = txn.OpenDBI("dbnotfound", 0)
+		println(dbi)
 		return err
 	})
 	log.Print(err) // mdb_dbi_open: MDB_NOTFOUND: No matching key/data pair found
@@ -709,6 +713,7 @@ func ExampleTxn_OpenDBI_dBsFull() {
 	var dbi lmdb.DBI
 	err = env.Update(func(txn *lmdb.Txn) (err error) {
 		dbi, err = txn.OpenDBI("dbnotexist", 0)
+		println(dbi)
 		return err
 	})
 	log.Print(err) // mdb_dbi_open: MDB_DBS_FULL: Environment maxdbs limit reached
@@ -720,6 +725,7 @@ func ExampleTxn_OpenRoot() {
 	var dbi lmdb.DBI
 	err = env.Update(func(txn *lmdb.Txn) (err error) {
 		dbi, err = txn.OpenRoot(0)
+		println(dbi)
 		return err
 	})
 	if err != nil {
@@ -776,6 +782,7 @@ func ExampleTxn_Get() {
 		// A []byte to string conversion will always copy the data
 		v, _ := txn.Get(DBIEx, []byte("mykey"))
 		str = string(v)
+		println(str)
 
 		// OK
 		// If []byte is the desired data type then an explicit copy is required
@@ -795,6 +802,7 @@ func ExampleTxn_Get() {
 		// after the transaction completes which can result in unpredictable
 		// behavior.
 		p2, _ = txn.Get(DBIEx, []byte("mykey"))
+		println(p2)
 
 		return nil
 	})
